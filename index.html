@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Training Erik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+      /* Custom Theme Config matching the original React app */
+      :root {
+        --color-canvas: #f3f3f3;
+        --color-surface: #e8e8e8;
+        --color-subtle: #e1e1e1;
+        --color-primary: #333333;
+        --color-secondary: #666666;
+        --color-action: #5076a3;
+        --color-success: #8baa8b;
+        --color-icon: #90778d;
+        --color-mutedRed: #c46d6d;
+        --color-mutedOrange: #d4a373;
+        --color-mutedBlue: #5076a3;
+        --color-mutedGreen: #8baa8b;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--color-canvas);
+        color: var(--color-primary);
+        overscroll-behavior-y: none;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Framer-like Spring Animations */
+      @keyframes enter-up {
+        0% { opacity: 0; transform: translateY(15px) scale(0.98); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      @keyframes enter-scale {
+        0% { opacity: 0; transform: scale(0.9); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+
+      .animate-enter {
+        animation: enter-up 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+
+      .animate-enter-scale {
+        animation: enter-scale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+
+      /* Delays for Staggering */
+      .delay-75 { animation-delay: 75ms; opacity: 0; animation-fill-mode: forwards; }
+      .delay-100 { animation-delay: 100ms; opacity: 0; animation-fill-mode: forwards; }
+      .delay-150 { animation-delay: 150ms; opacity: 0; animation-fill-mode: forwards; }
+      .delay-200 { animation-delay: 200ms; opacity: 0; animation-fill-mode: forwards; }
+      .delay-300 { animation-delay: 300ms; opacity: 0; animation-fill-mode: forwards; }
+      .delay-500 { animation-delay: 500ms; opacity: 0; animation-fill-mode: forwards; }
+
+      /* Interaction Physics */
+      .hover-spring {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                    background-color 0.2s ease,
+                    box-shadow 0.2s ease;
+      }
+      .hover-spring:hover {
+        transform: scale(1.02) translateY(-2px);
+      }
+      .hover-spring:active {
+        transform: scale(0.96) translateY(0);
+      }
+      
+      .btn-press {
+        transition: transform 0.1s ease;
+      }
+      .btn-press:active {
+        transform: scale(0.95);
+      }
+
+      /* Old utilities kept for compatibility if needed, but overridden mostly */
+      .animate-fadeIn {
+        animation: enter-up 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+      @keyframes celebrate {
+        0% { transform: scale(0.8); opacity: 0; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      .animate-celebrate {
+        animation: celebrate 0.5s ease-out forwards;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://esm.sh/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://esm.sh/rxjs@^7.8.2/operators?conditions=es2015",
+    "@angular/router": "https://next.esm.sh/@angular/router@^21.0.6?external=rxjs",
+    "@angular/common": "https://next.esm.sh/@angular/common@^21.0.6?external=rxjs",
+    "@angular/forms": "https://next.esm.sh/@angular/forms@^21.0.6?external=rxjs",
+    "@angular/compiler": "https://next.esm.sh/@angular/compiler@^21.0.6?external=rxjs",
+    "@angular/platform-browser": "https://next.esm.sh/@angular/platform-browser@^21.0.6?external=rxjs",
+    "@angular/core": "https://next.esm.sh/@angular/core@^21.0.6?external=rxjs"
+  }
+}
+</script>
+</head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
