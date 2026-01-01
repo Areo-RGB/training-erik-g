@@ -118,7 +118,7 @@ function shuffleArray<T>(array: T[]): T[] {
           </div>
 
           <!-- Controls -->
-          <div class="absolute top-6 right-6 flex gap-2">
+          <div class="absolute top-6 right-6 flex gap-2 z-50">
             <button (click)="viewMode.set('fullscreen')" class="p-3 bg-[#151A23]/80 backdrop-blur-sm rounded-full text-[#94A3B8] hover:text-white transition-colors border border-white/10" title="Vollbild">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
             </button>
@@ -127,7 +127,7 @@ function shuffleArray<T>(array: T[]): T[] {
             </button>
           </div>
           
-          <div class="flex flex-col items-center justify-center flex-1">
+          <div class="flex flex-col items-center justify-center flex-1 relative">
             <p class="text-xl md:text-2xl text-[#94A3B8] mb-4">Was ist die Hauptstadt von</p>
             <h2 class="text-4xl md:text-7xl font-black text-center text-[#F1F5F9] mb-8 min-h-[100px] md:min-h-[180px] flex items-center">
               {{ currentQuestion().country }}
@@ -139,7 +139,9 @@ function shuffleArray<T>(array: T[]): T[] {
                 <h3 class="text-3xl md:text-5xl font-bold text-[#10B981]">{{ currentQuestion().capital }}</h3>
               </div>
             } @else {
-              <div class="h-[84px] md:h-[116px]"></div>
+              <div class="h-[84px] md:h-[116px]">
+                  <!-- Empty placeholder for layout stability -->
+              </div>
             }
           </div>
 
@@ -172,7 +174,7 @@ function shuffleArray<T>(array: T[]): T[] {
     @if (status() === 'playing' && viewMode() === 'fullscreen') {
       <div class="fixed inset-0 z-50 bg-[#0B0E14] flex flex-col items-center justify-center animate-enter p-4">
         <!-- Exit Fullscreen Button -->
-        <button (click)="viewMode.set('normal')" class="absolute top-6 right-6 p-4 bg-[#151A23] rounded-full text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#2A3441] transition-all shadow-sm border border-white/5">
+        <button (click)="viewMode.set('normal')" class="absolute top-6 right-6 p-4 bg-[#151A23] rounded-full text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#2A3441] transition-all shadow-sm border border-white/5 z-50">
            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
              <polyline points="4 14 10 14 10 20"></polyline>
              <polyline points="20 10 14 10 14 4"></polyline>
@@ -182,7 +184,7 @@ function shuffleArray<T>(array: T[]): T[] {
         </button>
 
         <!-- Content -->
-        <div class="flex flex-col items-center justify-center text-center">
+        <div class="flex flex-col items-center justify-center text-center relative w-full">
             <p class="text-[3vw] lg:text-3xl text-[#94A3B8] mb-4">Was ist die Hauptstadt von</p>
             <h2 class="text-[10vw] lg:text-9xl font-black text-[#F1F5F9] leading-none">
               {{ currentQuestion().country }}
@@ -204,6 +206,7 @@ export class CapitalsComponent implements OnDestroy {
   // Config
   speed = signal(this.loadNumber('capitals_speed', 4));
   steps = signal(this.loadNumber('capitals_steps', 10));
+  // Removed voice config
 
   // State
   status = signal<'config' | 'playing' | 'finished'>('config');
@@ -225,6 +228,10 @@ export class CapitalsComponent implements OnDestroy {
   private loadNumber(key: string, def: number): number {
     return parseInt(localStorage.getItem(key) || String(def), 10);
   }
+  
+  private loadBoolean(key: string, def: boolean): boolean {
+    return localStorage.getItem(key) !== null ? localStorage.getItem(key) === 'true' : def;
+  }
 
   async startGame() {
     await this.audio.resumeAudioContext();
@@ -232,6 +239,7 @@ export class CapitalsComponent implements OnDestroy {
     this.currentStep.set(0);
     this.status.set('playing');
     this.viewMode.set('normal');
+    
     this.runCurrentStep();
   }
 

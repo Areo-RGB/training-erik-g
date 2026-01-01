@@ -37,7 +37,7 @@ import { signal } from '@angular/core';
       }
 
       <!-- Main Content -->
-      <main class="relative z-10 flex-1 max-w-4xl mx-auto w-full px-6 py-8 pb-20">
+      <main class="relative flex-1 max-w-4xl mx-auto w-full px-6 py-8 pb-20">
         <ng-content></ng-content>
       </main>
 
