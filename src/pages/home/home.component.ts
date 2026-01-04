@@ -12,10 +12,10 @@ import { CommonModule } from '@angular/common';
       <!-- Header -->
       <div class="text-center space-y-2 mb-2">
         <h1 class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-300">
-          Training Erik
+          Training
         </h1>
         <p class="text-[#94A3B8] text-xs md:text-sm font-medium tracking-wide uppercase">
-          Professionelles Trainings-Management
+          Training Tools
         </p>
       </div>
 

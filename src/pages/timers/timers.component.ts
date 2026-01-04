@@ -48,7 +48,7 @@ export class TimersComponent {
   showBuilder = signal(false);
 
   constructor() {
-    const saved = localStorage.getItem('erik_timer_sequences');
+    const saved = localStorage.getItem('app_timer_sequences');
     if (saved) {
       try {
         this.sequences.set(JSON.parse(saved));
@@ -58,7 +58,7 @@ export class TimersComponent {
     }
 
     effect(() => {
-      localStorage.setItem('erik_timer_sequences', JSON.stringify(this.sequences()));
+      localStorage.setItem('app_timer_sequences', JSON.stringify(this.sequences()));
     });
   }
 
