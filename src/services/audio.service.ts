@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class AudioService {
   private audioContext: AudioContext | null = null;
   private currentOsc: OscillatorNode | null = null;
+  private currentGain: GainNode | null = null;
 
   private getContext(): AudioContext | null {
     if (!this.audioContext) {
@@ -30,38 +31,64 @@ export class AudioService {
     const ctx = this.getContext();
     if (!ctx) return;
 
+    // Stop any currently playing beep to prevent overlap and ensure cleanup
     this.stopBeep();
 
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
+    this.currentOsc = osc;
+    this.currentGain = gain;
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+    // Envelope to avoid clicks: Start at vol, fade to near-zero
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
     osc.connect(gain);
     gain.connect(ctx.destination);
 
-    osc.frequency.value = freq;
-    gain.gain.value = vol;
-
+    // Handle cleanup when the oscillator stops naturally
     osc.onended = () => {
-      if (this.currentOsc === osc) {
-        this.currentOsc = null;
-      }
-      osc.disconnect();
+      this.cleanup(osc, gain);
     };
 
-    this.currentOsc = osc;
     osc.start();
     osc.stop(ctx.currentTime + duration);
   }
 
   stopBeep() {
+    // Manually stop the current oscillator if it exists
     if (this.currentOsc) {
       try {
         this.currentOsc.stop();
-        this.currentOsc.disconnect();
       } catch (e) {
-        // ignore
+        // Ignore if already stopped or invalid
       }
+      
+      // Force cleanup immediately
+      if (this.currentGain) {
+        this.cleanup(this.currentOsc, this.currentGain);
+      }
+    }
+  }
+
+  private cleanup(osc: OscillatorNode, gain: GainNode) {
+    try {
+      osc.disconnect();
+      gain.disconnect();
+    } catch (e) {
+      // Ignore disconnect errors
+    }
+
+    // Only nullify if these are still the active nodes
+    if (this.currentOsc === osc) {
       this.currentOsc = null;
+    }
+    if (this.currentGain === gain) {
+      this.currentGain = null;
     }
   }
 }
