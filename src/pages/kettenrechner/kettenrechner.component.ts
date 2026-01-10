@@ -126,8 +126,8 @@ declare var confetti: any;
               </div>
               
               <div class="flex items-center gap-2 opacity-30 hover:opacity-100 transition-opacity">
-                <button (click)="adjustFontSize(-1)" class="p-2 rounded-full bg-[#151A23] text-[#94A3B8] hover:bg-[#2A3441] btn-press">-</button>
-                <button (click)="adjustFontSize(1)" class="p-2 rounded-full bg-[#151A23] text-[#94A3B8] hover:bg-[#2A3441] btn-press">+</button>
+                <button (click)="adjustFontSize(-3)" class="p-2 rounded-full bg-[#151A23] text-[#94A3B8] hover:bg-[#2A3441] btn-press">-</button>
+                <button (click)="adjustFontSize(3)" class="p-2 rounded-full bg-[#151A23] text-[#94A3B8] hover:bg-[#2A3441] btn-press">+</button>
               </div>
             </div>
           </div>

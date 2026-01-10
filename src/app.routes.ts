@@ -6,6 +6,7 @@ import { KettenrechnerComponent } from './pages/kettenrechner/kettenrechner.comp
 import { TimersComponent } from './pages/timers/timers.component';
 import { SoundCounterComponent } from './pages/sound-counter/sound-counter.component';
 import { CapitalsComponent } from './pages/capitals/capitals.component';
+import { StatsComponent } from './pages/stats/stats.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'timers', component: TimersComponent },
   { path: 'sound-counter', component: SoundCounterComponent },
   { path: 'capitals', component: CapitalsComponent },
+  { path: 'stats', component: StatsComponent },
   { path: '**', redirectTo: '' }
 ];
